@@ -132,8 +132,10 @@ class MaskedAutoencoderViT(nn.Module):
         noise = torch.rand(N, L, device=x.device)  # noise in [0, 1]
         
         # sort noise for each sample
-        ids_shuffle = torch.argsort(noise, dim=1)  # ascend: small is keep, large is remove
-        ids_restore = torch.argsort(ids_shuffle, dim=1)
+#         ids_shuffle = torch.argsort(noise, dim=1)  # ascend: small is keep, large is remove
+#         ids_restore = torch.argsort(ids_shuffle, dim=1)
+        _, ids_shuffle  = noise.sort(1)
+        _, ids_restore = ids_shuffle.sort(1)
 
         # keep the first subset
         ids_keep = ids_shuffle[:, :len_keep]
